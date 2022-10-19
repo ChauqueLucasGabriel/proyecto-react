@@ -23,7 +23,7 @@ font-family:sans-serif;
 
 p{
     &:nth-child(2){
-        font-size:1.3em;
+        font-size:1.4em;
         color:#fff;
     }
     &:nth-child(3){

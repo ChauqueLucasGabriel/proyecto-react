@@ -7,18 +7,22 @@ import ItemDetailContainer from "./components/pages/ItemDetailContainer/ItemDeta
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React from "react";
+import CartContextProvider from './context/CartContext.js';
+
 
 function App() {
   return (
-		<BrowserRouter>
+	  <CartContextProvider>
+	  	<BrowserRouter>
 			<Navbar/>
 			<Routes>
 				<Route	path='/' element={<ItemListContainer greeting={'hola'} titulo={'titulo de app'}/>}/>
-				<Route	path='/detalle'	element={<ItemDetailContainer/>}/>
-				
+				<Route	path='/categoria/:idCategoria' element={<ItemListContainer greeting={'hola'} titulo={'titulo de app'}/>}/>
+				<Route	path='/detalle/:idProducto' element={<ItemDetailContainer/>}/>
 				<Route	path='/carrito'	element={<CartPage/>}/>
 			</Routes>
 		</BrowserRouter>
+	  </CartContextProvider>
   );
 }
 

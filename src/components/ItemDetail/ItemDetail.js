@@ -18,10 +18,7 @@ const ItemDetail = (producto) => {
 
   return (
     <>
-			{loading ?	
-				<h2>Cargando...</h2>
-						:
-				productos.map( producto=><div 
+			{productos.map( producto=><div 
 											key={producto.id}
 											style={{ marginLeft: 100}}
 											className='col-md-3'>    
@@ -35,9 +32,9 @@ const ItemDetail = (producto) => {
 										</div>
 								
 										<div className="card-footer">                                                        
-										{/* <button className="btn btn-outline-primary btn-block">
+										<button className="btn btn-outline-primary btn-block">
 												detalle del producto
-											</button> */}
+											</button>
 										</div>
 									</div>
 				</div> )}

@@ -1,39 +1,33 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { gFetch } from "../../../helpers/gFetch"
 import ItemList from "../../Itemlist/ItemList"
 import Titulo from "../../Titulo/Titulo"
-import ItemDetailContainer from "../ItemDetailContainer/ItemDetailContainer"
+import {Pinwheel} from '@uiball/loaders'
+import{collection, getDocs, getFirestore} from 'firebase/firestore'
 
 const ItemListContainer = ({greeting,titulo}) => {
-	const [productos,setProductos]=useState([])
+	const [products,setProducts]=useState([])
 	const [loading,setLoading]=useState(true)
 
-	const { idCategoria } = useParams()
-	console.log(idCategoria)
+	const { idCategory } = useParams()
 
-	useEffect( ()=>{
-		if (idCategoria){
-			gFetch(productos)
-			.then(resSgte => setProductos(resSgte.filter(products => products.categoria ===idCategoria)))
-			.catch(err=>console.log(err))
-			.finally(()=>setLoading(false))
-		}else{
-			gFetch(productos)
-			.then(resSgte=>setProductos(resSgte))
-			.catch(err=>console.log(err))
-			.finally(()=>setLoading(false))
-		}
-	},[idCategoria])
+	useEffect(()=>{
+		const db= getFirestore()
+		const queryCollection= collection(db,'products')
+		getDocs(queryCollection)
+		.then(resp=>setProducts(resp.docs.map(prod=>({id:prod.id,...prod.data() }))))
+		.catch(err=>console.log(err))
+		.finally(()=>setLoading(false))
+	},[idCategory])
 
   return(
 		<div>
-			<Titulo titulo={'titulo de itemListContainer'} subtitulo={'Subtitulo de itemlistcontainer'} />
+			<Titulo titulo={''} subtitulo={''} />
 	 		<p>{greeting}</p>  
 	 		{loading ? 
-			 	<h2>Cargando...</h2> 
+			 	<Pinwheel speed={1.2} size={50}/> 
 		 		:
-				<ItemList productos={productos} /> 
+				<ItemList products={products} /> 
 	 		}
 		</div>
 

@@ -1,45 +1,34 @@
-import { useEffect, useState } from 'react'
-import { gFetch } from '../../helpers/gFetch'
-
-const ItemDetail = (producto) => {
-    const [productos,setProductos]=useState([])
-
-	const [loading,setLoading]=useState([true])
+import {  useCartContext } from '../../context/CartContext'
 
 
-	useEffect(()=>{
-	gFetch()
-		.then(resSgte=>setProductos(resSgte))
-		.catch(err=>console.log(err))
-		.finally(()=>setLoading(false))
-	},[])
-	console.log(producto)
+const ItemDetail = ({product={
+	id: 1,
+	name:'mouse',
+	price:100,
+	category:'perifericos',
+	stock:10,
+	foto:'https://s3-sa-east-1.amazonaws.com/saasargentina/oaPmQNJPQeMZynN9AOk5/imagen'
+}
+}) => {
+	const [addItem] =useCartContext()
 
+
+	const onAdd=(cantidad=2)=>{
+		console.log('onAdd',cantidad)
+		addItem({...product,cantidad})
+	}
 
   return (
-    <>
-			{productos.map( producto=><div 
-											key={producto.id}
-											style={{ marginLeft: 100}}
-											className='col-md-3'>    
-											<div className="card w-100 mt-5" >
-											<div className="card-header">
-												{`${producto.nombre} - ${producto.categoria}`}
-											</div>
-										<div className="card-body">
-											<img src={producto.foto} alt='' className='w-50' />
-											{producto.price}                                                            
-										</div>
-								
-										<div className="card-footer">                                                        
-										<button className="btn btn-outline-primary btn-block">
-												detalle del producto
-											</button>
-										</div>
-									</div>
-				</div> )}
-		
-    </>
+    <center>
+		<h1>ItemDetailContainer</h1>
+
+		<img src={`${product.foto}`}/>
+		<p>{product.name}</p>
+		<p>{product.price}</p>
+		<p>{product.stock}</p>
+		<button onClick={()=>onAdd()}>agregar al carrito</button>
+	
+    </center>
   )
 }
 
